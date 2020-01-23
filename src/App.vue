@@ -1,32 +1,70 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-content>
+      <Navigator />
+
+      <router-view></router-view>
+      <h2>contador</h2>
+      <p>{{ count }} - {{stateString}}</p>
+      <p>{{double}}</p>
+      <button @click="increment">+</button>
+      <button @click="decrement">-</button>
+      <button @click="increment10">lol</button>
+
+
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapState, mapMutations }  from 'vuex'
+import Navigator from "./components/Navigator";
 
-#nav {
-  padding: 30px;
+export default {
+  name: "App",
+    data () {
+      return{
+        test:'test'
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+      }
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
+  components: {
+    Navigator
+  },
+  computed: {
+       /* count() {
+      return this.$store.state.count;
+    }*/
+
+    ...mapState(['count']),
+
+    stateString(){
+    return this.test
+    },
+
+    double(){
+      return this.$store.getters.getDouble
+
     }
-  }
-}
-</style>
+
+    },
+    methods:{
+      ...mapMutations(['increment','decrement']),
+
+    /*  increment(){
+        this.$store.commit('increment')
+      },*/
+    /*    decrement(){
+        this.$store.commit('decrement')
+      },*/
+      increment10(){
+        this.$store.commit('increment10',{
+          number:10
+        })
+      },
+      
+    }
+
+};
+</script>
